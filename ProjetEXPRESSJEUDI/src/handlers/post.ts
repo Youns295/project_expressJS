@@ -33,6 +33,8 @@ export const updatePost : RequestHandler = async (req: TypedRequestParam, res) =
         if (!(req.body?.name)) {
             throw new Error('Invalid body provided')
           }
+
+
         const post = await db.post.update({
             where: {
                 id: (req.params.id)

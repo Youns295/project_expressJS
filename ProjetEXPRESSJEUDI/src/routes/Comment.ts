@@ -26,14 +26,15 @@ router.post(
   '/Comment',
   body('PostId').isUUID(),
   body('description').isString(),
-  isUsersItem,
+  // isUsersItem,
   async (req, res) => {
     try {
       validationResult(req).throw()
       const createdComment  = await db.comment.create({
         data: {
+          description: req.body.description,
           PostId: req.body.PostId,
-          description: req.body.description
+          userId: req.user.id
         },
       })
 

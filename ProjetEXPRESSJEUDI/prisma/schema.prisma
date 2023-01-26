@@ -24,6 +24,8 @@ model Comment {
   description String
   PostId      String
   Post        Post   @relation(fields: [PostId], references: [id])
+  User        User   @relation(fields: [userId], references: [id])
+  userId      String
 }
 
 model User {
@@ -31,4 +33,11 @@ model User {
   username String @unique @db.VarChar(64)
   password String
   Post     Post[]
+  Comments Comment[]
+  Role     Role   @default(USER)
+}
+
+enum Role {
+  USER
+  ADMIN
 }

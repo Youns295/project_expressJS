@@ -9,14 +9,14 @@ export const createJWT = (user: User) => {
     const token = jwt.sign({
         id: user.id,
         username: user.username,
+        Role: user.Role
     }, process.env.JWT_SECRET as string);
     return token 
 }
 
 // envoie d'un token qui est verifie 
 export const protect : RequestHandler = (req, res, next) => {
-    const bearer = req.headers.authorization;
-
+    const bearer = req.headers.authorization; 
 
     if(!bearer) {
         return res.status(401).json({ message: 'Not authorized' })
@@ -54,3 +54,8 @@ export const comparePassword = (password: string, hash: string) => {
 export const hashPassword = (password: string) => {
     return bcrypt.hash(password, 10)
 }
+
+// if (!(req.user.Role !== "ADMIN")) {
+//     throw new Error('You are not an admin')
+//     }
+
