@@ -1,9 +1,11 @@
+import { Role } from "@prisma/client";
 import { Request, RequestHandler } from "express";
 import db from "../db";
 import { comparePassword, createJWT, hashPassword } from "../modules/auth";
 
 interface TypedRequestParam extends Request {
   body: {
+    Role: Role;
     username?: string;
     password?: string;
   }
@@ -22,6 +24,7 @@ export const createNewUser: RequestHandler = async (req: TypedRequestParam, res)
       data: {
         username: req.body.username,
         password: hash,
+        Role: req.body.Role
       }
     })
 
