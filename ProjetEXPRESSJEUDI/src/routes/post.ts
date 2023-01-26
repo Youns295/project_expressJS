@@ -1,18 +1,33 @@
 import { Request, RequestHandler, Response, Router } from "express";
 import { body, check, validationResult } from "express-validator";
 import db from "../db";
+import { AdminOrOther } from "../modules/admin";
 
 
 const app = Router()
 
 
+const isPost: RequestHandler = async (req, res, next) => {
+  try {
+    const isOwner = await db.comment.findFirstOrThrow({
+      where: {
+          userId: req.user.id
+      }
+    })
+    if (isOwner) {
+      return next()
+    }
+    throw new Error('You should not be here')
+  } catch(e) {
+    return res.status(400).json({ message: 'You are not the owner' })
+  }
+} 
 app.get('/posts', async (req, res) => {
   const posts = await db.post.findMany({
     where: {
       userId: req.user.id
     },
     include: {
-
       Comment: true
     }
   })
@@ -20,7 +35,7 @@ app.get('/posts', async (req, res) => {
 })
 
 app.get(
-  '/post/:uuid',
+  '/post/:uuid',isPost,AdminOrOther,
   async (req, res) => {
     try {
       const post = await db.post.findFirstOrThrow({
@@ -42,7 +57,7 @@ app.get(
 
 
 app.post(
-  '/post',
+  '/post',isPost,AdminOrOther,
   body('name').exists().isString().notEmpty(),
   async (req: Request, res: Response) => {
     try {
@@ -62,7 +77,7 @@ app.post(
     }
 })
 
-app.put('/post/:uuid', body('name').exists().isString().notEmpty(), async (req, res) => {
+app.put('/post/:uuid', body('name').exists().isString().notEmpty(),AdminOrOther, async (req, res) => {
   try {
     validationResult(req).throw()
     const updatedPost = await db.post.update({
@@ -80,17 +95,17 @@ app.put('/post/:uuid', body('name').exists().isString().notEmpty(), async (req, 
   }
 })
 
-app.delete('/post/:uuid', async (req, res) => {
+app.delete('/post/:uuid',AdminOrOther, async (req, res) => {
   try {
     await db.post.delete({
       where: {
         id: req.params.uuid
       }
-    })
+    }
+    )
   
     return res.status(200).json({message: `Succesfully deleted ${req.params.uuid}`})
   } catch(e) {
-    // console.log(e)
     return res.status(400).json({message: e || 'Error while deleting'})
   }
 })

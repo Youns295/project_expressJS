@@ -1,6 +1,7 @@
 import express from 'express'
 import { body, validationResult } from 'express-validator'
 import db from '../db'
+import { AdminOrOther } from '../modules/admin'
 
 const app = express.Router()
 
@@ -14,6 +15,7 @@ app.put('/user/:uuid',body('name').exists().isString().notEmpty(), async (req, r
     validationResult(req).throw()
     const updatedUser = await db.user.update({
       where: {
+        
         id: req.params?.uuid
       },
       data: {
@@ -29,7 +31,7 @@ app.put('/user/:uuid',body('name').exists().isString().notEmpty(), async (req, r
 })
 
 
-app.delete('/user/:uuid', async (req, res) => {
+app.delete('/user/:uuid' , async (req, res) => {
   try {
     await db.user.delete({
       where: {

@@ -1,6 +1,7 @@
 import { RequestHandler, Router } from 'express'
 import { body, validationResult } from 'express-validator'
 import db from '../db'
+import { AdminOrOther } from '../modules/admin'
 
 const router = Router()
 
@@ -47,7 +48,7 @@ router.post(
 
 router.put(
   '/Comment/:uuid',
-  isUsersItem,
+  isUsersItem,AdminOrOther,
   body('description').isLength({ min: 1 }),
   async (req, res) => {
     try {
@@ -68,7 +69,7 @@ router.put(
 )
 
 router.delete(
-  '/Comment/:uuid',
+  '/Comment/:uuid',AdminOrOther,
   isUsersItem,
   async (req, res) => {
     try {

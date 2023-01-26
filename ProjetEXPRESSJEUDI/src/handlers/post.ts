@@ -36,7 +36,7 @@ export const updatePost : RequestHandler = async (req: TypedRequestParam, res) =
 
         const post = await db.post.update({
             where: {
-                id: (req.params.id)
+                id: (req.params.id),
             },
             data: {
                 name: req.body.name,

@@ -18,6 +18,8 @@ model Post {
   User    User     @relation(fields: [userId], references: [id])
   userId  String
   createdAt DateTime @default(now())
+  // author    Author    @relation(fields: [authorId], references: [id])
+  // authorId  Int
 }
 
 model Comment {
