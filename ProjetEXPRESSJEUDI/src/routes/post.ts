@@ -35,7 +35,7 @@ app.get('/posts', async (req, res) => {
 })
 
 app.get(
-  '/post/:uuid',isPost,AdminOrOther,
+  '/post/:uuid',
   async (req, res) => {
     try {
       const post = await db.post.findFirstOrThrow({
@@ -44,8 +44,14 @@ app.get(
           userId: req.user.id
         },
         include: {
-          Comment: true
-        }
+          Comment: {
+            include: {
+              User: true,
+              // Comment: true,
+            }},
+          
+        },
+       
       })
 
       return res.status(200).json(post)

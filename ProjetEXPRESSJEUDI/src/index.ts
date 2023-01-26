@@ -7,6 +7,7 @@ import { protect } from './modules/auth'
 import { createNewUser, signIn } from './handlers/user'
 import config from './config'
 import path from 'path'
+import cors from 'cors'
 
 dotenv.config()
 
@@ -14,6 +15,7 @@ const app = express()
 const PORT = config.port
 
 app.use(express.json())
+app.use(cors())
 
 app.get('/', (req, res) => {
     // res.sendFile(path.resolve("public/Connexion.html")) 

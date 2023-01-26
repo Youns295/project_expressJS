@@ -10,7 +10,7 @@ app.get('/user', (req, res) => {
   res.status(200).json({ message: 'Hello user' })
 })
 
-app.put('/user/:uuid',body('name').exists().isString().notEmpty(), async (req, res) => {
+app.put('/user/:uuid',body('name').exists().isString().notEmpty(),AdminOrOther, async (req, res) => {
   try {
     validationResult(req).throw()
     const updatedUser = await db.user.update({
@@ -31,7 +31,7 @@ app.put('/user/:uuid',body('name').exists().isString().notEmpty(), async (req, r
 })
 
 
-app.delete('/user/:uuid' , async (req, res) => {
+app.delete('/user/:uuid',AdminOrOther , async (req, res) => {
   try {
     await db.user.delete({
       where: {

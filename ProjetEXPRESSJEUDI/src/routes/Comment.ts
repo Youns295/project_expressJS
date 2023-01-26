@@ -70,7 +70,7 @@ router.put(
 
 router.delete(
   '/Comment/:uuid',AdminOrOther,
-  isUsersItem,
+  isUsersItem,AdminOrOther,
   async (req, res) => {
     try {
       const deletedId = req.params.uuid
