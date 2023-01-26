@@ -30,7 +30,8 @@ app.use('/api', protect, [
 
 app.post('/signUp', createNewUser)
 app.get('/signUp', (req, res) => {
-  res.sendFile(path.resolve("public/Inscription.html")) })
+  res.sendFile(path.resolve("public/Inscription.html")) 
+})
 
 app.post('/signIn', signIn) 
 app.get('/signIn', (req, res) => {

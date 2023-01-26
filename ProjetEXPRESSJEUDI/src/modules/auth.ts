@@ -55,7 +55,3 @@ export const hashPassword = (password: string) => {
     return bcrypt.hash(password, 10)
 }
 
-// if (!(req.user.Role !== "ADMIN")) {
-//     throw new Error('You are not an admin')
-//     }
-

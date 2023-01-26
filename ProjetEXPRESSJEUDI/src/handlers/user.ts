@@ -48,6 +48,7 @@ export const signIn: RequestHandler = async (req: TypedRequestParam, res) => {
       }
     })
   
+    
     if (user) {
       const isValid = await comparePassword(req.body.password, user.password)
 
@@ -58,7 +59,8 @@ export const signIn: RequestHandler = async (req: TypedRequestParam, res) => {
       const token = createJWT(user)
       return res.status(200).json({ token })
     }
-  } catch(e) {
+  }
+   catch(e) {
     return res.status(400).json({ error: e?.toString() })
   }
 }

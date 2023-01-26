@@ -90,6 +90,7 @@ app.delete('/post/:uuid', async (req, res) => {
   
     return res.status(200).json({message: `Succesfully deleted ${req.params.uuid}`})
   } catch(e) {
+    // console.log(e)
     return res.status(400).json({message: e || 'Error while deleting'})
   }
 })

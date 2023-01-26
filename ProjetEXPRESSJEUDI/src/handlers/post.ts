@@ -6,7 +6,7 @@ interface TypedRequestParam extends Request {
     body: {
       content: any;
       name?: string;
-      
+      createdAt?: Date;
     }
   }
 
