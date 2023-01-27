@@ -47,12 +47,13 @@ app.get('/posts', async (req, res) => {
     createdAt: {
       gte: date
     }
-  },
-  include: {
-    Comment: true
   }
+  // ,
+  // include: {
+  //   Comment: true
+  // }
 }}
-  const posts = await db.post.findMany(filter)
+  const posts = await db.post.findMany()
   return res.status(200).json(posts)
 })
 
@@ -87,7 +88,7 @@ app.get(
 
 
 app.post(
-  '/post',isPost,AdminOrOther,
+  '/post',
   body('name').exists().isString().notEmpty(),
   async (req: Request, res: Response) => {
     try {
