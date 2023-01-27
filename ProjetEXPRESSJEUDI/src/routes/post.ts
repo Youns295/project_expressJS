@@ -23,14 +23,36 @@ const isPost: RequestHandler = async (req, res, next) => {
   }
 } 
 app.get('/posts', async (req, res) => {
-  const posts = await db.post.findMany({
-    where: {
-      userId: req.user.id
+  let filter = {}
+  const dateReq = Number(req.query.from)
+
+  const date = new Date(dateReq)
+
+  if (req.query.from) {
+    filter = {
+      where: {
+        userId: req.user.id,
+      createdAt: {
+        gte: date
+      }
     },
     include: {
       Comment: true
     }
-  })
+  }
+} else {
+  filter = {
+    where: {
+      userId: req.user.id,
+    createdAt: {
+      gte: date
+    }
+  },
+  include: {
+    Comment: true
+  }
+}}
+  const posts = await db.post.findMany(filter)
   return res.status(200).json(posts)
 })
 
@@ -48,7 +70,9 @@ app.get(
             include: {
               User: true,
               // Comment: true,
-            }},
+              // password: false
+            },
+          },
           
         },
        

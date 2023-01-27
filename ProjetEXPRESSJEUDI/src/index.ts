@@ -18,9 +18,9 @@ app.use(express.json())
 app.use(cors())
 
 app.get('/', (req, res) => {
-    // res.sendFile(path.resolve("public/Connexion.html")) 
+   res.status(200).json({ message: 'hello' }) // res.sendFile(path.resolve("public/Connexion.html")) 
   })
-  // res.status(200).json({ message: 'hello' })
+  
 
 app.use('/api', protect, [
   userRoutes,
